@@ -1,0 +1,29 @@
+{
+  "entries": [
+    {
+      "version": "0.1.0",
+      "date": "2026-05-26",
+      "time": "00:00",
+      "type": "minor",
+      "title": "OrbitAdmin 0.1.0: Initial release",
+      "categories": {
+        "Added": [
+          "Futuristic Bootstrap 5 theme: dark glassmorphism, neon cyan and magenta accents, starfield, command palette",
+          "Pluggable storage drivers: MySQL/MariaDB, SQLite, JSON (default for the live demo)",
+          "Modules: core, db, auth, dashboard, users, roles, activity, tokens, emails, files, system, settings, installer",
+          "Hash-chained append-only activity log with chain verification (System info + bin/orbit test)",
+          "API tokens with sha256 hashes at rest; full secret shown once at creation",
+          "Email templates with {{var}} placeholders, preview, and test send",
+          "File manager with extension and MIME allow-lists, uploads stored outside the web root",
+          "Install wizard with server readiness, driver picker, and first admin user; locks itself after success",
+          "bin/orbit CLI: install, migrate, user:add/list/passwd, token:create/revoke, cache:clear, demo:seed/reset, test, release",
+          "Security headers (CSP nonce, HSTS, XFO, XCTO, Referrer-Policy, Permissions-Policy, COOP/COEP), CSRF, bcrypt cost 12, rate-limited login",
+          "Live demo at https://test.newstargeted.com/OrbitAdmin/ and GitHub Pages landing under docs/"
+        ],
+        "Notes": [
+          "Every module under 500 lines, secrets in config.php only, Norwegian dd/mm/yyyy dates, no em dashes"
+        ]
+      }
+    }
+  ]
+}
