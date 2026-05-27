@@ -18,7 +18,8 @@ if (Auth::check()) {
     redirect('/');
 }
 
-$next = isset($_GET['next']) ? (string) $_GET['next'] : '/';
+$nextInput = isset($_POST['next']) ? (string) $_POST['next'] : (isset($_GET['next']) ? (string) $_GET['next'] : '/');
+$next = Url::normalizeInternalPath($nextInput);
 $errors = [];
 $old = ['username' => ''];
 

@@ -23,7 +23,7 @@ final class Url
         if (preg_match('#^https?://#i', $path)) {
             return $path;
         }
-        return self::base() . '/' . ltrim($path, '/');
+        return self::base() . '/' . ltrim(self::normalizeInternalPath($path), '/');
     }
 
     public static function asset(string $path): string
@@ -41,5 +41,24 @@ final class Url
         $current = parse_url(self::current(), PHP_URL_PATH) ?: '/';
         $target = self::to($path);
         return $current === $target || strpos($current, rtrim($target, '/') . '/') === 0;
+    }
+
+    public static function normalizeInternalPath(string $path): string
+    {
+        $parsedPath = parse_url($path, PHP_URL_PATH);
+        $normalized = is_string($parsedPath) && $parsedPath !== '' ? $parsedPath : '/';
+        if ($normalized[0] !== '/') {
+            $normalized = '/' . $normalized;
+        }
+
+        $base = self::base();
+        if ($base !== '' && ($normalized === $base || strpos($normalized, $base . '/') === 0)) {
+            $normalized = substr($normalized, strlen($base));
+            if ($normalized === false || $normalized === '') {
+                $normalized = '/';
+            }
+        }
+
+        return '/' . ltrim($normalized, '/');
     }
 }

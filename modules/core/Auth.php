@@ -84,7 +84,7 @@ final class Auth
     public static function requireLogin(): void
     {
         if (!self::check()) {
-            $next = $_SERVER['REQUEST_URI'] ?? '/';
+            $next = Url::normalizeInternalPath((string) ($_SERVER['REQUEST_URI'] ?? '/'));
             header('Location: ' . Url::to('/login?next=' . urlencode($next)));
             exit;
         }
