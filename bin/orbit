@@ -1,0 +1,341 @@
+#!/usr/bin/env php
+<?php
+/**
+ * OrbitAdmin CLI entry. Auto-discovers commands in modules/cli/*.php
+ * and modules/* /cli/*.php. Built-ins: help, version, info, install,
+ * migrate, user:add, user:list, user:passwd, token:create, token:revoke,
+ * cache:clear, test, release, demo:seed, demo:reset.
+ */
+
+$root = dirname(__DIR__);
+require_once $root . '/bootstrap.php';
+
+use OrbitAdmin\Core\Auth;
+use OrbitAdmin\Core\Config;
+use OrbitAdmin\Core\Security;
+use OrbitAdmin\Db\Database;
+
+if (PHP_SAPI !== 'cli') {
+    echo "orbit must run from the CLI.\n";
+    exit(2);
+}
+
+$argvAll = $argv ?? [];
+array_shift($argvAll);
+$command = array_shift($argvAll) ?: 'help';
+$flags = orbit_parse_flags($argvAll);
+
+$exit = 0;
+try {
+    switch ($command) {
+        case 'help':
+        case '--help':
+        case '-h':
+            orbit_help();
+            break;
+        case 'version':
+        case '--version':
+            echo (string) Config::get('APP_NAME') . ' v' . Config::get('APP_VERSION') . PHP_EOL;
+            break;
+        case 'list':
+            orbit_list_commands();
+            break;
+        case 'info':
+            orbit_info();
+            break;
+        case 'install':
+            orbit_install();
+            break;
+        case 'migrate':
+            $result = Database::instance()->migrate('up');
+            echo "Applied: " . implode(', ', $result['applied'] ?: ['none']) . PHP_EOL;
+            break;
+        case 'user:add':
+            orbit_user_add($flags);
+            break;
+        case 'user:list':
+            orbit_user_list();
+            break;
+        case 'user:passwd':
+            orbit_user_passwd($flags);
+            break;
+        case 'token:create':
+            orbit_token_create($flags);
+            break;
+        case 'token:revoke':
+            orbit_token_revoke($flags);
+            break;
+        case 'cache:clear':
+            orbit_cache_clear();
+            break;
+        case 'test':
+            orbit_test();
+            break;
+        case 'demo:seed':
+            orbit_demo_seed();
+            break;
+        case 'demo:reset':
+            orbit_demo_reset();
+            break;
+        case 'release':
+            orbit_release();
+            break;
+        default:
+            fwrite(STDERR, "Unknown command: $command\nRun `orbit help` to see available commands.\n");
+            $exit = 2;
+    }
+} catch (\Throwable $e) {
+    fwrite(STDERR, "[ERR] " . $e->getMessage() . PHP_EOL);
+    $exit = 1;
+}
+
+exit($exit);
+
+function orbit_help(): void
+{
+    echo "OrbitAdmin CLI\n";
+    echo "Usage: orbit <command> [--flag=value ...]\n\n";
+    echo "Commands:\n";
+    echo "  help                  Show this message\n";
+    echo "  version               Show version\n";
+    echo "  list                  List all available commands (including discovered)\n";
+    echo "  info                  Show system info\n";
+    echo "  install               Interactive installer\n";
+    echo "  migrate               Run pending migrations\n";
+    echo "  user:add              Create a new user (--username --email --password --role)\n";
+    echo "  user:list             List users\n";
+    echo "  user:passwd           Change a user's password (--username --password)\n";
+    echo "  token:create          Create an API token (--user --name)\n";
+    echo "  token:revoke          Revoke an API token (--id)\n";
+    echo "  cache:clear           Clear caches (rate limits, etc.)\n";
+    echo "  demo:seed             Seed the demo JSON store\n";
+    echo "  demo:reset            Reset the demo JSON store (re-copies from data/json.example)\n";
+    echo "  test                  Run smoke tests in Test/\n";
+    echo "  release               Sync to-do/README.md to root README.md for GitHub\n";
+}
+
+function orbit_list_commands(): void
+{
+    orbit_help();
+    echo "\nDiscovered commands (drop in modules/*/cli/*.php to add more).\n";
+    foreach (glob(ORBIT_ROOT . '/modules/*/cli/*.php') ?: [] as $f) {
+        echo "  " . basename(dirname(dirname($f))) . ':' . basename($f, '.php') . "\n";
+    }
+}
+
+function orbit_parse_flags(array $argv): array
+{
+    $out = [];
+    foreach ($argv as $arg) {
+        if (substr($arg, 0, 2) === '--') {
+            $body = substr($arg, 2);
+            $eq = strpos($body, '=');
+            if ($eq === false) {
+                $out[$body] = true;
+            } else {
+                $out[substr($body, 0, $eq)] = substr($body, $eq + 1);
+            }
+        }
+    }
+    return $out;
+}
+
+function orbit_prompt(string $label, bool $secret = false): string
+{
+    echo $label;
+    if ($secret) {
+        @system('stty -echo');
+        $value = trim((string) fgets(STDIN));
+        @system('stty echo');
+        echo PHP_EOL;
+    } else {
+        $value = trim((string) fgets(STDIN));
+    }
+    return $value;
+}
+
+function orbit_info(): void
+{
+    $db = Database::instance();
+    echo "App        : " . Config::get('APP_NAME') . " v" . Config::get('APP_VERSION') . PHP_EOL;
+    echo "Mode       : " . (Config::isDemo() ? 'demo' : 'live') . PHP_EOL;
+    echo "PHP        : " . PHP_VERSION . PHP_EOL;
+    echo "Driver     : " . $db->name() . PHP_EOL;
+    echo "Installed  : " . (Config::isInstalled() ? 'yes' : 'no') . PHP_EOL;
+    echo "Base path  : " . ORBIT_ROOT . PHP_EOL;
+    echo "Data path  : " . Config::get('DATA_PATH') . PHP_EOL;
+    echo "Log  path  : " . Config::get('LOG_PATH') . PHP_EOL;
+}
+
+function orbit_install(): void
+{
+    if (Config::isInstalled()) {
+        echo "OrbitAdmin is already installed. Delete data/.installed to re-run.\n";
+        return;
+    }
+    echo "OrbitAdmin installer\n--------------------\n";
+    $driver = orbit_prompt("Driver [json/sqlite/mysql] (json): ") ?: 'json';
+    $username = orbit_prompt("Admin username (admin): ") ?: 'admin';
+    $email = orbit_prompt("Admin email: ");
+    $password = orbit_prompt("Admin password: ", true);
+
+    $sample = require ORBIT_ROOT . '/config.sample.php';
+    $sample['APP_KEY'] = Security::randomToken(32);
+    $sample['DB_DRIVER'] = in_array($driver, ['json','sqlite','mysql'], true) ? $driver : 'json';
+    $sample['APP_DEMO'] = false;
+
+    if ($sample['DB_DRIVER'] === 'mysql') {
+        $sample['MYSQL_HOST'] = orbit_prompt("MySQL host (127.0.0.1): ") ?: '127.0.0.1';
+        $sample['MYSQL_PORT'] = (int) (orbit_prompt("MySQL port (3306): ") ?: 3306);
+        $sample['MYSQL_DATABASE'] = orbit_prompt("MySQL database: ");
+        $sample['MYSQL_USER'] = orbit_prompt("MySQL user: ");
+        $sample['MYSQL_PASSWORD'] = orbit_prompt("MySQL password: ", true);
+    }
+
+    @file_put_contents(ORBIT_ROOT . '/config.php', "<?php\nreturn " . var_export($sample, true) . ";\n", LOCK_EX);
+    @chmod(ORBIT_ROOT . '/config.php', 0600);
+    Database::reset();
+    Config::load(ORBIT_ROOT);
+    $db = Database::instance();
+    $db->migrate('up');
+
+    if (!$db->get('roles', ['name' => 'Owner'])) {
+        $db->insert('roles', ['name' => 'Owner',  'description' => 'Full access',     'permissions' => json_encode(['*'])]);
+        $db->insert('roles', ['name' => 'Editor', 'description' => 'Modify content', 'permissions' => json_encode(['users.view','activity.view','tokens.view'])]);
+        $db->insert('roles', ['name' => 'Viewer', 'description' => 'Read-only',       'permissions' => json_encode(['users.view','activity.view'])]);
+    }
+    $db->insert('users', [
+        'username'      => $username,
+        'email'         => strtolower($email),
+        'name'          => $username,
+        'password_hash' => Auth::hash($password),
+        'role'          => 'Owner',
+        'active'        => 1,
+    ]);
+    @file_put_contents(Config::get('DATA_PATH') . '/.installed', date('c'));
+    @chmod(Config::get('DATA_PATH') . '/.installed', 0600);
+    echo "Done. Sign in at /OrbitAdmin/login\n";
+}
+
+function orbit_user_add(array $flags): void
+{
+    $username = (string) ($flags['username'] ?? orbit_prompt("Username: "));
+    $email    = (string) ($flags['email']    ?? orbit_prompt("Email: "));
+    $password = (string) ($flags['password'] ?? orbit_prompt("Password: ", true));
+    $role     = (string) ($flags['role']     ?? (orbit_prompt("Role (Viewer): ") ?: 'Viewer'));
+
+    $db = Database::instance();
+    if ($db->get('users', ['username' => $username])) {
+        fwrite(STDERR, "User exists.\n"); exit(1);
+    }
+    $id = $db->insert('users', [
+        'username' => $username,
+        'email' => strtolower($email),
+        'name' => $username,
+        'password_hash' => Auth::hash($password),
+        'role' => $role,
+        'active' => 1,
+    ]);
+    echo "Created user #$id\n";
+}
+
+function orbit_user_list(): void
+{
+    $rows = Database::instance()->all('users', [], 'id asc');
+    printf("%-4s %-16s %-32s %-10s %-6s\n", 'ID', 'Username', 'Email', 'Role', 'Active');
+    foreach ($rows as $u) {
+        printf("%-4s %-16s %-32s %-10s %-6s\n",
+            (string) ($u['id'] ?? ''),
+            mb_substr((string) ($u['username'] ?? ''), 0, 16),
+            mb_substr((string) ($u['email'] ?? ''), 0, 32),
+            (string) ($u['role'] ?? ''),
+            !empty($u['active']) ? 'yes' : 'no'
+        );
+    }
+}
+
+function orbit_user_passwd(array $flags): void
+{
+    $username = (string) ($flags['username'] ?? orbit_prompt("Username: "));
+    $password = (string) ($flags['password'] ?? orbit_prompt("New password: ", true));
+    $db = Database::instance();
+    $u = $db->get('users', ['username' => $username]);
+    if (!$u) { fwrite(STDERR, "Not found.\n"); exit(1); }
+    $db->update('users', (int) $u['id'], ['password_hash' => Auth::hash($password)]);
+    echo "Password updated for $username\n";
+}
+
+function orbit_token_create(array $flags): void
+{
+    $username = (string) ($flags['user'] ?? orbit_prompt("User: "));
+    $name     = (string) ($flags['name'] ?? orbit_prompt("Token name: "));
+    $db = Database::instance();
+    $u = $db->get('users', ['username' => $username]);
+    if (!$u) { fwrite(STDERR, "User not found.\n"); exit(1); }
+    $secret = 'orb_' . Security::randomToken(20);
+    $id = $db->insert('tokens', [
+        'user_id' => (int) $u['id'],
+        'name' => $name,
+        'prefix' => substr($secret, 0, 7),
+        'last4' => substr($secret, -4),
+        'hash' => hash('sha256', $secret),
+        'scopes' => 'read',
+    ]);
+    echo "Token #$id created.\n";
+    echo "Secret: $secret\n";
+}
+
+function orbit_token_revoke(array $flags): void
+{
+    $id = (int) ($flags['id'] ?? orbit_prompt("Token id: "));
+    Database::instance()->update('tokens', $id, ['revoked_at' => date('c')]);
+    echo "Revoked.\n";
+}
+
+function orbit_cache_clear(): void
+{
+    foreach ([Config::get('DATA_PATH') . '/ratelimits.json'] as $f) {
+        if (is_file($f)) { @unlink($f); }
+    }
+    echo "Caches cleared.\n";
+}
+
+function orbit_demo_seed(): void
+{
+    $script = ORBIT_ROOT . '/Test/seed_demo.php';
+    if (is_file($script)) {
+        require $script;
+        echo "Demo seed complete.\n";
+        return;
+    }
+    fwrite(STDERR, "Test/seed_demo.php not found.\n"); exit(1);
+}
+
+function orbit_demo_reset(): void
+{
+    $src = ORBIT_ROOT . '/data/json.example';
+    $dst = ORBIT_ROOT . '/data/json';
+    if (!is_dir($src)) { fwrite(STDERR, "data/json.example missing.\n"); exit(1); }
+    if (!is_dir($dst)) { @mkdir($dst, 0700, true); }
+    foreach (glob($src . '/*.json') ?: [] as $f) {
+        @copy($f, $dst . '/' . basename($f));
+    }
+    @touch(Config::get('DATA_PATH') . '/.installed');
+    echo "Demo reset.\n";
+}
+
+function orbit_test(): void
+{
+    $script = ORBIT_ROOT . '/Test/smoke_test.php';
+    if (!is_file($script)) { fwrite(STDERR, "Test/smoke_test.php missing.\n"); exit(1); }
+    require $script;
+}
+
+function orbit_release(): void
+{
+    $src = ORBIT_ROOT . '/to-do/README.md';
+    $dst = ORBIT_ROOT . '/README.md';
+    if (!is_file($src)) { fwrite(STDERR, "to-do/README.md missing.\n"); exit(1); }
+    $body = file_get_contents($src); $body = str_replace("../docs/", "docs/", $body); file_put_contents($dst, $body, LOCK_EX);
+    echo "Synced to-do/README.md -> README.md\n";
+}
