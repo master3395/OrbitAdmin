@@ -1,0 +1,32 @@
+# OrbitAdmin .gitignore
+
+# Secrets and runtime state
+/config.php
+/config.local.php
+/data/*
+!/data/.gitkeep
+!/data/json.example/
+!/data/json.example/**
+/logs/*
+!/logs/.gitkeep
+*.installed
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Composer / npm (app vendor is under public/assets/vendor and is committed)
+/vendor/
+/node_modules/
+
+# Editor and OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+.cursor/
+
+# Build artefacts
+docs/screenshots/raw/

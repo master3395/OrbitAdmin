@@ -1,0 +1,25 @@
+# OrbitAdmin .gitattributes
+*               text=auto eol=lf
+*.php           text eol=lf
+*.css           text eol=lf
+*.js            text eol=lf
+*.json          text eol=lf
+*.md            text eol=lf
+*.sql           text eol=lf
+*.html          text eol=lf
+
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+*.woff          binary
+*.woff2         binary
+
+# Exclude from archive (zip releases)
+.gitattributes  export-ignore
+.gitignore      export-ignore
+.cursorignore   export-ignore
+Test/           export-ignore
+to-do/          export-ignore
+docs/           export-ignore

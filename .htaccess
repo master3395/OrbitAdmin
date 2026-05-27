@@ -1,0 +1,23 @@
+# OrbitAdmin top-level .htaccess
+# Rewrites /OrbitAdmin/* into /OrbitAdmin/public/* and blocks sensitive paths.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /OrbitAdmin/
+
+    # Send everything into public/ (clean URLs preserved by public/.htaccess)
+    RewriteCond %{REQUEST_URI} !^/OrbitAdmin/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Deny access to source folders and secrets.
+RedirectMatch 403 (?i)/(config\.php|config\.sample\.php|composer\.(json|lock)|\.htaccess\.disabled|\.gitignore|\.gitattributes|LICENSE)$
+RedirectMatch 403 (?i)^/OrbitAdmin/(modules|views|sql|bin|Test|to-do|docs|data|logs)(/|$)
+RedirectMatch 403 (?i)^/OrbitAdmin/\.git(/|$)
+
+<FilesMatch "(^\.|~$|\.bak$|\.log$|\.sql$|\.swp$)">
+    Require all denied
+</FilesMatch>
