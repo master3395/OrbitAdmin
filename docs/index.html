@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="OrbitAdmin: a futuristic, mobile-friendly Bootstrap 5 admin panel with pluggable MySQL/SQLite/JSON backends.">
+<title>OrbitAdmin: Mission control for your server</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+<div class="orb orb-a" aria-hidden="true"></div>
+<div class="orb orb-b" aria-hidden="true"></div>
+
+<header class="hero">
+    <div class="container">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>OrbitAdmin</h1>
+        <p class="tagline">Mission control for your server. Futuristic Bootstrap 5 admin panel with a pluggable backend.</p>
+        <div class="cta-row">
+            <a class="btn primary" href="https://test.newstargeted.com/OrbitAdmin/" target="_blank" rel="noopener">Live demo</a>
+            <a class="btn ghost"   href="https://github.com/master3395/OrbitAdmin" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+        <div class="badge-row">
+            <span class="badge">PHP 7.4 to 8.6</span>
+            <span class="badge">Bootstrap 5.3</span>
+            <span class="badge">MIT licensed</span>
+            <span class="badge">JSON, SQLite, MySQL</span>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <section class="screenshot">
+        <img src="screenshots/login.svg" alt="OrbitAdmin login screen" loading="lazy">
+        <img src="screenshots/dashboard.svg" alt="OrbitAdmin dashboard" loading="lazy" style="margin-top:16px">
+    </section>
+
+    <section class="features">
+        <h2>Why OrbitAdmin?</h2>
+        <div class="feature-grid">
+            <div class="card"><h3>Three backends, one interface</h3><p>Switch between JSON, SQLite, and MySQL by editing a single line in <code>config.php</code>. The same modules work everywhere.</p></div>
+            <div class="card"><h3>Security baseline</h3><p>CSP with per-request nonce, HSTS, bcrypt cost 12, CSRF double-submit, rate-limited login, hash-chained activity log.</p></div>
+            <div class="card"><h3>Install wizard + CLI</h3><p>Run <code>php bin/orbit install</code> or visit <code>/install</code>. Either route prepares the DB, creates the admin user, and locks itself.</p></div>
+            <div class="card"><h3>Mobile-friendly</h3><p>Glassmorphism UI with command palette (Ctrl+K), dark/light toggle, off-canvas sidebar, and <code>prefers-reduced-motion</code> aware animations.</p></div>
+            <div class="card"><h3>Built for ops</h3><p>Users, roles, activity log, API tokens, email templates, file manager, system info, and settings ship in v1.</p></div>
+            <div class="card"><h3>Modular</h3><p>Every PHP file stays under 500 lines. Drop a folder under <code>modules/</code> to add a new feature.</p></div>
+        </div>
+    </section>
+
+    <section class="install">
+        <h2>Quick start</h2>
+<pre><code>git clone git@github.com:master3395/OrbitAdmin.git
+cd OrbitAdmin
+php bin/orbit install
+# or open /OrbitAdmin/install in your browser</code></pre>
+        <p class="muted">Demo credentials on the live site: <code>admin / OrbitDemo!2026</code> (read-only seeded admin).</p>
+    </section>
+
+    <section class="drivers">
+        <h2>Backend matrix</h2>
+        <table>
+            <thead><tr><th>Driver</th><th>Setup</th><th>Best for</th></tr></thead>
+            <tbody>
+                <tr><td>json</td><td>none</td><td>homelab, demo, very small teams</td></tr>
+                <tr><td>sqlite</td><td>none</td><td>small projects, embedded installs</td></tr>
+                <tr><td>mysql</td><td>DB</td><td>production, multi-instance</td></tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <span>OrbitAdmin v0.1.0</span>
+        <a href="https://github.com/master3395/OrbitAdmin/blob/main/LICENSE">MIT licensed</a>
+        <a href="https://github.com/master3395/OrbitAdmin">GitHub</a>
+        <a href="https://test.newstargeted.com/OrbitAdmin/">Live demo</a>
+    </div>
+</footer>
+</body>
+</html>

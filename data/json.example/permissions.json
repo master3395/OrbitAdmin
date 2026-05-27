@@ -1,0 +1,113 @@
+{
+    "next_id": 19,
+    "rows": [
+        {
+            "id": 1,
+            "key": "users.view",
+            "label": "Users: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 2,
+            "key": "users.create",
+            "label": "Users: create",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 3,
+            "key": "users.edit",
+            "label": "Users: edit",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 4,
+            "key": "users.delete",
+            "label": "Users: delete",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 5,
+            "key": "roles.view",
+            "label": "Roles: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 6,
+            "key": "roles.edit",
+            "label": "Roles: edit",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 7,
+            "key": "activity.view",
+            "label": "Activity: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 8,
+            "key": "tokens.view",
+            "label": "Tokens: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 9,
+            "key": "tokens.create",
+            "label": "Tokens: create",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 10,
+            "key": "tokens.revoke",
+            "label": "Tokens: revoke",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 11,
+            "key": "emails.view",
+            "label": "Emails: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 12,
+            "key": "emails.edit",
+            "label": "Emails: edit",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 13,
+            "key": "files.view",
+            "label": "Files: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 14,
+            "key": "files.upload",
+            "label": "Files: upload",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 15,
+            "key": "files.delete",
+            "label": "Files: delete",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 16,
+            "key": "system.view",
+            "label": "System: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 17,
+            "key": "settings.view",
+            "label": "Settings: view",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 18,
+            "key": "settings.edit",
+            "label": "Settings: edit",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        }
+    ]
+}

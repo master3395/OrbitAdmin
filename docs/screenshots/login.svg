@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="OrbitAdmin login screen preview">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#15214b"/>
+      <stop offset="55%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#060a1c"/>
+    </radialGradient>
+    <linearGradient id="orb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#22d3ee" stop-opacity="0.75"/>
+      <stop offset="60%"  stop-color="#6366f1" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#d946ef" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bg)"/>
+
+  <!-- Star field -->
+  <g fill="#ffffff" opacity="0.75">
+    <circle cx="140" cy="120" r="1.6"/>
+    <circle cx="320" cy="80" r="1.2"/>
+    <circle cx="540" cy="180" r="1.8"/>
+    <circle cx="780" cy="60"  r="1.2"/>
+    <circle cx="980" cy="140" r="1.6"/>
+    <circle cx="1160" cy="100" r="1"/>
+    <circle cx="200" cy="380" r="1.1"/>
+    <circle cx="60"  cy="500" r="1.6"/>
+    <circle cx="380" cy="540" r="1.3"/>
+    <circle cx="900" cy="540" r="1.5"/>
+    <circle cx="1120" cy="620" r="1.2"/>
+    <circle cx="740" cy="660" r="1.4"/>
+  </g>
+
+  <!-- Nebula orbs -->
+  <circle cx="180"  cy="220" r="280" fill="url(#orb)" filter="url(#blur)"/>
+  <circle cx="1120" cy="540" r="320" fill="url(#orb)" filter="url(#blur)" opacity="0.7"/>
+
+  <!-- Auth card -->
+  <g transform="translate(420,160)">
+    <rect width="440" height="430" rx="22" ry="22"
+          fill="rgba(20,28,56,0.85)" stroke="rgba(154,195,255,0.35)" stroke-width="1"
+          style="filter: drop-shadow(0 30px 60px rgba(0,0,0,0.55))"/>
+
+    <text x="32" y="58" font-family="Inter, Segoe UI, sans-serif" font-size="28" font-weight="700" fill="url(#title)">OrbitAdmin</text>
+    <text x="32" y="84" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#9aa6cf">Mission control for your server</text>
+
+    <text x="32" y="130" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#9aa6cf">Username or email</text>
+    <rect x="32" y="140" width="376" height="40" rx="10" fill="rgba(11,16,32,0.55)" stroke="rgba(154,195,255,0.25)"/>
+    <text x="46" y="166" font-family="Inter, Segoe UI, sans-serif" font-size="13" fill="#e7ecff">admin</text>
+
+    <text x="32" y="206" font-family="Inter, Segoe UI, sans-serif" font-size="12" fill="#9aa6cf">Password</text>
+    <rect x="32" y="216" width="376" height="40" rx="10" fill="rgba(11,16,32,0.55)" stroke="rgba(154,195,255,0.25)"/>
+    <text x="46" y="242" font-family="Inter, Segoe UI, sans-serif" font-size="14" letter-spacing="4" fill="#e7ecff">**********</text>
+
+    <!-- Sign-in button -->
+    <rect x="32" y="280" width="376" height="46" rx="23" fill="url(#orb)"/>
+    <text x="220" y="309" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Sign in</text>
+
+    <!-- Demo creds box -->
+    <rect x="32" y="346" width="376" height="60" rx="10" fill="rgba(34,211,238,0.12)" stroke="rgba(34,211,238,0.4)"/>
+    <text x="44" y="368" font-family="Inter, Segoe UI, sans-serif" font-size="12" font-weight="700" fill="#67e8f9">Demo credentials</text>
+    <text x="44" y="386" font-family="JetBrains Mono, monospace" font-size="11" fill="#e7ecff">admin / OrbitDemo!2026</text>
+    <text x="44" y="400" font-family="JetBrains Mono, monospace" font-size="11" fill="#9aa6cf">editor / viewer also available</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="640" y="680" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="11" fill="#9aa6cf">OrbitAdmin v0.1.0 &middot; github.com/master3395/OrbitAdmin</text>
+</svg>

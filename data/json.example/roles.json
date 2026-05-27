@@ -1,0 +1,26 @@
+{
+    "next_id": 4,
+    "rows": [
+        {
+            "id": 1,
+            "name": "Owner",
+            "description": "Full access to every module.",
+            "permissions": "[\"*\"]",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 2,
+            "name": "Editor",
+            "description": "Can create and modify content.",
+            "permissions": "[\"users.view\",\"users.edit\",\"roles.view\",\"activity.view\",\"tokens.view\",\"tokens.create\",\"emails.view\",\"emails.edit\",\"files.view\",\"files.upload\",\"system.view\",\"settings.view\"]",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        },
+        {
+            "id": 3,
+            "name": "Viewer",
+            "description": "Read-only access to non-sensitive pages.",
+            "permissions": "[\"users.view\",\"roles.view\",\"activity.view\",\"tokens.view\",\"emails.view\",\"files.view\",\"system.view\",\"settings.view\"]",
+            "created_at": "2026-04-27T00:06:49+02:00"
+        }
+    ]
+}

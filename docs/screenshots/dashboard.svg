@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="OrbitAdmin dashboard preview">
+  <defs>
+    <radialGradient id="bg2" cx="50%" cy="0%" r="80%">
+      <stop offset="0%" stop-color="#15214b"/>
+      <stop offset="55%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#060a1c"/>
+    </radialGradient>
+    <linearGradient id="stat1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="stat2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d946ef"/><stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="stat3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="stat4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="chart" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#d946ef" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg2)"/>
+
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="240" height="720" fill="rgba(11,16,32,0.85)"/>
+  <rect x="0" y="0" width="240" height="720" fill="none" stroke="rgba(154,195,255,0.16)"/>
+  <g font-family="Inter, sans-serif" fill="#e7ecff">
+    <text x="24" y="48" font-size="18" font-weight="700">OrbitAdmin</text>
+    <text x="24" y="68" font-size="11" fill="#9aa6cf">v0.1.0 &middot; JSON</text>
+
+    <text x="24" y="108" font-size="10" fill="#9aa6cf" letter-spacing="2">OVERVIEW</text>
+    <rect x="14" y="124" width="212" height="34" rx="10" fill="rgba(34,211,238,0.18)" stroke="rgba(154,195,255,0.32)"/>
+    <text x="32" y="146" font-size="13">Dashboard</text>
+    <text x="32" y="178" font-size="13" fill="#9aa6cf">Users</text>
+    <text x="32" y="206" font-size="13" fill="#9aa6cf">Roles</text>
+    <text x="32" y="234" font-size="13" fill="#9aa6cf">Activity log</text>
+
+    <text x="24" y="276" font-size="10" fill="#9aa6cf" letter-spacing="2">OPERATIONS</text>
+    <text x="32" y="298" font-size="13" fill="#9aa6cf">API tokens</text>
+    <text x="32" y="326" font-size="13" fill="#9aa6cf">Email templates</text>
+    <text x="32" y="354" font-size="13" fill="#9aa6cf">File manager</text>
+
+    <text x="24" y="394" font-size="10" fill="#9aa6cf" letter-spacing="2">SYSTEM</text>
+    <text x="32" y="416" font-size="13" fill="#9aa6cf">System info</text>
+    <text x="32" y="444" font-size="13" fill="#9aa6cf">Settings</text>
+  </g>
+
+  <!-- Topbar -->
+  <rect x="240" y="0" width="1040" height="64" fill="rgba(6,10,28,0.85)"/>
+  <rect x="240" y="63" width="1040" height="1" fill="rgba(154,195,255,0.16)"/>
+  <rect x="270" y="16" width="320" height="32" rx="16" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+  <text x="288" y="37" font-family="Inter, sans-serif" font-size="12" fill="#9aa6cf">Quick jump (Ctrl + K)</text>
+
+  <rect x="1100" y="16" width="34" height="32" rx="16" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+  <rect x="1146" y="16" width="34" height="32" rx="16" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+  <rect x="1192" y="16" width="76" height="32" rx="16" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+  <text x="1206" y="37" font-family="Inter, sans-serif" font-size="12" fill="#e7ecff">admin</text>
+
+  <!-- Heading -->
+  <g font-family="Inter, sans-serif">
+    <text x="270" y="108" font-size="22" font-weight="700" fill="#e7ecff">Mission overview</text>
+    <text x="270" y="132" font-size="12" fill="#9aa6cf">Real-time pulse of your OrbitAdmin instance.</text>
+  </g>
+
+  <!-- Stat cards -->
+  <g>
+    <g transform="translate(270, 160)">
+      <rect width="232" height="110" rx="14" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+      <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#9aa6cf">Users</text>
+      <text x="20" y="74" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#e7ecff">5</text>
+      <rect x="170" y="22" width="42" height="42" rx="12" fill="url(#stat1)"/>
+    </g>
+    <g transform="translate(514, 160)">
+      <rect width="232" height="110" rx="14" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+      <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#9aa6cf">Roles</text>
+      <text x="20" y="74" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#e7ecff">3</text>
+      <rect x="170" y="22" width="42" height="42" rx="12" fill="url(#stat2)"/>
+    </g>
+    <g transform="translate(758, 160)">
+      <rect width="232" height="110" rx="14" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+      <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#9aa6cf">Events</text>
+      <text x="20" y="74" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#e7ecff">25</text>
+      <rect x="170" y="22" width="42" height="42" rx="12" fill="url(#stat3)"/>
+    </g>
+    <g transform="translate(1002, 160)">
+      <rect width="232" height="110" rx="14" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+      <text x="20" y="32" font-family="Inter, sans-serif" font-size="12" fill="#9aa6cf">API tokens</text>
+      <text x="20" y="74" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#e7ecff">2</text>
+      <rect x="170" y="22" width="42" height="42" rx="12" fill="url(#stat4)"/>
+    </g>
+  </g>
+
+  <!-- Chart card -->
+  <g transform="translate(270, 296)">
+    <rect width="640" height="350" rx="14" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+    <text x="22" y="34" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#e7ecff">Activity (last 14 days)</text>
+    <text x="22" y="54" font-family="Inter, sans-serif" font-size="11" fill="#9aa6cf">Live, JSON driver</text>
+
+    <!-- Chart polyline -->
+    <polyline fill="none" stroke="#22d3ee" stroke-width="2.5" points="40,260 80,220 120,250 160,200 200,170 240,210 280,140 320,180 360,120 400,150 440,90 480,140 520,110 560,80 600,100"/>
+    <polygon fill="url(#chart)" opacity="0.85"
+             points="40,260 80,220 120,250 160,200 200,170 240,210 280,140 320,180 360,120 400,150 440,90 480,140 520,110 560,80 600,100 600,320 40,320"/>
+    <line x1="40" y1="320" x2="600" y2="320" stroke="rgba(154,195,255,0.15)"/>
+  </g>
+
+  <!-- Recent activity -->
+  <g transform="translate(926, 296)">
+    <rect width="308" height="350" rx="14" fill="rgba(20,28,56,0.55)" stroke="rgba(154,195,255,0.16)"/>
+    <text x="20" y="32" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#e7ecff">Recent activity</text>
+    <g font-family="Inter, sans-serif" font-size="11">
+      <text x="20" y="64" fill="#e7ecff">admin</text>
+      <text x="100" y="64" fill="#67e8f9">login.success</text>
+      <text x="20" y="92" fill="#e7ecff">editor</text>
+      <text x="100" y="92" fill="#67e8f9">emails.test</text>
+      <text x="20" y="120" fill="#e7ecff">admin</text>
+      <text x="100" y="120" fill="#67e8f9">token.create</text>
+      <text x="20" y="148" fill="#e7ecff">viewer</text>
+      <text x="100" y="148" fill="#67e8f9">login.success</text>
+      <text x="20" y="176" fill="#e7ecff">admin</text>
+      <text x="100" y="176" fill="#67e8f9">file.upload</text>
+      <text x="20" y="204" fill="#e7ecff">editor</text>
+      <text x="100" y="204" fill="#67e8f9">users.edit</text>
+    </g>
+  </g>
+
+  <!-- Demo banner top -->
+  <rect x="240" y="0" width="1040" height="22" fill="rgba(217,70,239,0.22)"/>
+  <text x="760" y="15" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#fda4af">Demo mode: data resets periodically; some destructive actions are blocked.</text>
+</svg>
